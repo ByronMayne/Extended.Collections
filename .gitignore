@@ -3,3 +3,4 @@ bin/
 .vs/
 *.nupkg
 *.snupkg
+node_modules/*
