@@ -1,10 +1,4 @@
-# Ring Buffer
-
-A ring buffer is a data structure that efficiently manages a fixed-size, cyclically-referenced buffer, allowing for constant-time insertions and removals while overwriting the oldest data when full.
-
-
-```csharp title=RingBufferSandbox.cs
-using Extended.Collections.Generic;
+﻿using Extended.Collections.Generic;
 
 namespace Extended.Collections.Playground.Generic
 {
@@ -38,4 +32,3 @@ namespace Extended.Collections.Playground.Generic
         }
     }
 }
-```
