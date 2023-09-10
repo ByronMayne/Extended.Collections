@@ -3,4 +3,7 @@ bin/
 .vs/
 *.nupkg
 *.snupkg
-node_modules/*
+docusaurus/node_modules/*
+
+docusaurus/build
+docusaurus/.docusaurus

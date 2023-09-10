@@ -3,7 +3,7 @@
 A ring buffer is a data structure that efficiently manages a fixed-size, cyclically-referenced buffer, allowing for constant-time insertions and removals while overwriting the oldest data when full.
 
 
-```cs
+```csharp title=MyClass.cs
 using Extended.Collections;
 
 public class MyClass()
@@ -15,10 +15,13 @@ public class MyClass()
         buffer.Add("B");
         buffer.Add("C");
         buffer.Add("D");
-        Log(buffer) // 'B', 'C', 'D'
+        Log(buffer) // ["B", "C", "D"]
 
         buffer.Remove("C");
-        Log(buffer); // 'B', 'D'
+        Log(buffer); // ["B", "D"]
+
+        buffer.Clear();
+        Log(buffer) // []
 
     }
 }
