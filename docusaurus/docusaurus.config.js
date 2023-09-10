@@ -7,15 +7,27 @@ const darkCodeTheme = require('prism-react-renderer/themes/oceanicNext');
 const config = {
   title: 'Extended.Collections',
   tagline: 'The missing C# collections you did not know you needed',
-  favicon: 'img/favicon.ico',
+  favicon: 'favicon.ico',
   url: 'https://github.com',
-  baseUrl: '/Extended.Collections/',
+  baseUrl: '/',
   organizationName: 'ByronMayne', 
   projectName: 'Extended.Collections', // Usually your repo name.
   trailingSlash: false,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  staticDirectories: [
+    'static',
+    'public'
+  ],
   themeConfig: {
+     navbar: {
+      title: "Extended Collections",
+      logo: {
+        src: '/img/icon.png',
+        width: 32,
+        height: 32,
+      }
+     },
      prism: {
       theme: lightCodeTheme,
       darkTheme: darkCodeTheme,
