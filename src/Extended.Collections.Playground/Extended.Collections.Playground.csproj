@@ -7,4 +7,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="3.0.2-dev-02044" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Extended.Collections\Extended.Collections.csproj" />
+  </ItemGroup>
+
 </Project>
