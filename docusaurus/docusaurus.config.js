@@ -8,7 +8,7 @@ const config = {
   title: 'Extended.Collections',
   tagline: 'The missing C# collections you did not know you needed',
   favicon: 'img/favicon.ico',
-  url: 'https://github.com/ByronMayne/Extended.Collections',
+  url: 'https://github.com',
   baseUrl: '/',
   organizationName: 'ByronMayne', 
   projectName: 'Extended.Collections', // Usually your repo name.
