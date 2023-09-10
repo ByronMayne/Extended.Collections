@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkextended_collections=self.webpackChunkextended_collections||[]).push([[609],{3984:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-debug","id":"default"}')}}]);
