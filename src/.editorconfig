@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# xUnit2013: Do not use equality check to check for collection size.
+dotnet_diagnostic.xUnit2013.severity = none
