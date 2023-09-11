@@ -15,3 +15,4 @@ Have a collection type that you would want to add? Feel free to make a pull requ
 | Name | Type Name | Description                                                                         |
 |------|-----------|-------------------------------------------------------------------------------------|
 | [Ring Buffer](./generic/ring_buffer.md) | `Collections.Extended.Generic.RingBuffer<T>` | A ring buffer efficiently manages a fixed-size, cyclically-referenced buffer, allowing for constant-time insertions and removals while overwriting the oldest data when full. |
+| [OrderedDictionary](./generic/ordered_dictionary.md) | 'Extended.Collections.Generic.Specialized.OrderedDictionary<TKey, TValue> | Combines the features of a dictionary and a list, allowing key-value pairs to be stored in a specific order and accessed efficiently by their keys. |
