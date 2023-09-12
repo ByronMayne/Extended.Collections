@@ -5,6 +5,21 @@
     <Nullable>enable</Nullable>
     <LangVersion>10</LangVersion>
     <AppDesignerFolder>Nullables</AppDesignerFolder>
+    <Title>Extended Collections</Title>
+    <Authors>Byron Mayne</Authors>
+    <Description>Extended.Collections is a package that contains unit tested generic collections that can be used across a range of project types.</Description>
+    <PackageId>Extended.Collections</PackageId>
+    <PackageTags>Collections;Queues;Dictionary;List;RingBuffer;Generic</PackageTags>
+    <PackageProjectUrl>https://github.com/ByronMayne/Extended.Collections</PackageProjectUrl>
+    <!-- Source Link -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.Common" Version="1.1.1" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
 </Project>

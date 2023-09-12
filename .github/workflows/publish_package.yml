@@ -1,0 +1,36 @@
+name: .NET Core Desktop
+
+on: [ push, pull_request ]
+    #branches: [ "main" ]
+  # pull_request:
+   # branches: [ "main" ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SourceDir: ./src/
+      Configuration: Release
+      Solution_Path: ./src/Extended.Collections.sln 
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore Dotnet Tools
+      run: dotnet tool restore
+    - name: Run Git Version
+      run: |
+            dotnet gitversion
+            echo Semantic Version: ${GitVersion_SemVer}
+    - name: Build 
+      run: dotnet build ${Solution_Path}
+    - name: Execute unit tests
+      run: dotnet test ${Solution_Path}
+    - name: Pack 
+      run: dotnet msbuild -t:pack ${Solution_Path}
+    - name: Push 
+      run: dotnet nuget push ./src/Extended.Collections/bin/${Configuration}/*.nupkg --api-key ${{ secrets.NuGet_Api_Key }} --source ${{ vars.Nuget_Source_Url}}
