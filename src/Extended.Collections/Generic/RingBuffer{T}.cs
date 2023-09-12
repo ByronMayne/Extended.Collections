@@ -153,7 +153,14 @@ namespace Extended.Collections.Generic
 
             for (int i = 0; i < Count; i++)
             {
-                if (m_equalityComparer.Equals(m_items[index], item))
+                T? current = m_items[i];
+
+                if(current == null)
+                {
+                    continue;
+                }
+
+                if (m_equalityComparer.Equals(current, item))
                 {
                     removalIndex = index;
                     break;

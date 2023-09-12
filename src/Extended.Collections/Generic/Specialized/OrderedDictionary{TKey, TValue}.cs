@@ -271,11 +271,11 @@ namespace Extended.Collections.Generic.Specialized
         /// </summary>
         [ExcludeFromCodeCoverage]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static TValue ConvertValue(object value)
+        private static TValue ConvertValue(object? value)
         {
             return value is TValue castedValue
                 ? castedValue
-                : throw new InvalidCastException($"The required values type is {typeof(TValue).FullName} however a instance of {value.GetType().FullName} was provided");
+                : throw new InvalidCastException($"The required values type is {typeof(TValue).FullName} however a instance of {value?.GetType().FullName??"null"} was provided");
         }
 
         public int IndexOf(KeyValuePair<TKey, TValue> item)
