@@ -34,4 +34,4 @@ jobs:
     - name: Pack 
       run: dotnet msbuild -t:pack ${Solution_Path}
     - name: Push 
-      run: dotnet nuget push -api-key ${NuGet_Api_Key} --source src\Extended.Collections\bin\Debug\*.nupkg
+      run: dotnet nuget push --api-key  ${NuGet_Api_Key} --source src\Extended.Collections\bin\Debug\*.nupkg
