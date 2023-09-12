@@ -28,6 +28,14 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - name: Restore Dotnet Tools
+      run: dotnet tool restore
+    - name: Run Git Version
+      run: |
+            dotnet-gitversion
+            echo Semantic Version: ${GitVersion_SemVer}
+    - name: Build 
+      run: dotnet build ${Solution_Path}
     - name: Execute unit tests
       run: dotnet test ${Solution_Path}
     - name: Restore the application
