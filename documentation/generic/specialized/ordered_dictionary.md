@@ -13,28 +13,7 @@ Cons:
 
 ### Hypothetical Use Case:
 Suppose you are building a task management application, and you need to maintain a list of tasks for a project while preserving the order in which they were added. An OrderedDictionary can be useful in this scenario to store and manage tasks associated with a project.
-```cs
-using System;
-using System.Collections.Specialized;
 
-class Program
-{
-    static void Main()
-    {
-        // Create an OrderedDictionary to store tasks for a project.
-        OrderedDictionary<string, string> projectTasks = new OrderedDictionary<string, string>();
-
-        // Add tasks to the project in a specific order.
-        projectTasks.Add("Task1", "Complete research");
-        projectTasks.Add("Task2", "Write documentation");
-        projectTasks.Add("Task3", "Test functionality");
-
-        // Access tasks by their keys while maintaining their order.
-        Console.WriteLine("Project Tasks:");
-        foreach (DictionaryEntry entry in projectTasks)
-        {
-            Console.WriteLine($"{entry.Key}: {entry.Value}");
-        }
-    }
-}
+```csharp file=../../../src/Extended.Collections.Playground\Generic\Specialized\OrderedDictionarySandbox.cs#L2-
+// Imported
 ```

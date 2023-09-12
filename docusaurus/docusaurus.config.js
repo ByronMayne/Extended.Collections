@@ -1,4 +1,5 @@
 // @ts-check
+const path = require('path')
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/oceanicNext');
 
@@ -43,6 +44,11 @@ const config = {
       breadcrumbs: true, 
       routeBasePath: '/',
       showLastUpdateTime: true,
+      remarkPlugins: [
+        [require('remark-code-import'), {
+          removeRedundantIndentations: true,
+        }]
+      ],
       editUrl: ({docPath}) =>
       `https://github.com/ByronMayne/Extended.Collections/edit/main/documentation/${docPath}`,
 
