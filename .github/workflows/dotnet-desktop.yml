@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: $env:Working_Dir
+        working-directory: ${Working_Dir}
     env:
       Working_Dir: ./src/
       Solution_Name: Extended.Collections.sln 
-      Solution_Path: $env:Working_Dir$env:Solution_Name
+      Solution_Path: ${Working_Dir}${Solution_Name}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -29,8 +29,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Execute unit tests
-      run: dotnet test $env:Solution_Path
+      run: dotnet test ${Solution_Path}
     - name: Restore the application
-      run: dotnet msbuild $env:Solution_Path -t:Restore -p:Configuration=$env:Configuration
+      run: dotnet msbuild ${Solution_Path} -t:Restore -p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
