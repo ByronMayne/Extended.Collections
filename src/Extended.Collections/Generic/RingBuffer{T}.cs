@@ -162,7 +162,7 @@ namespace Extended.Collections.Generic
 
                 if (m_equalityComparer.Equals(current, item))
                 {
-                    removalIndex = index;
+                    removalIndex = i;
                     break;
                 }
 
