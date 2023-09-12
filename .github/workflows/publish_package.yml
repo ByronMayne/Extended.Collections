@@ -33,4 +33,4 @@ jobs:
     - name: Pack 
       run: dotnet msbuild -t:pack ${Solution_Path}
     - name: Push 
-      run: dotnet nuget push --api-key ${{ secrets.NuGet_Api_Key }} --source ${{ env.Nuget_Source_Url}}
+      run: dotnet nuget push --api-key ${{ secrets.NuGet_Api_Key }} --source ${{ vars.Nuget_Source_Url}}
