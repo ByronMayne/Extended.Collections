@@ -24,7 +24,9 @@ jobs:
     - name: Restore Dotnet Tools
       run: dotnet tool restore
     - name: Run Git Version
-      run:  dotnet-gitversion
+      run: |
+            dotnet gitversion
+            echo Semantic Version: ${GitVersion_SemVer}
     - name: Build 
       run: dotnet build ${Solution_Path}
     - name: Execute unit tests
