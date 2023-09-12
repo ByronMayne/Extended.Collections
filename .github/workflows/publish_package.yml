@@ -31,5 +31,7 @@ jobs:
       run: dotnet build ${Solution_Path}
     - name: Execute unit tests
       run: dotnet test ${Solution_Path}
-    - name: Restore the application
-      run: dotnet msbuild ${Solution_Path} -t:Restore
+    - name: Pack 
+      run: dotnet msbuild -t:pack ${Solution_Path}
+    - name: Push 
+      run: dotnet nuget push -api-key ${NuGet_Api_Key} --source src\Extended.Collections\bin\Debug\*.nupkg
