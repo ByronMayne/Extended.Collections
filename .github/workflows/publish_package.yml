@@ -8,13 +8,10 @@ on: [ push, pull_request ]
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${Working_Dir}
     env:
-      Working_Dir: ./src/
+      Source_Dir: ./src/
       Configuration: Release
-      Solution_Path: ${Working_Dir}Extended.Collections.sln 
+      Solution_Path: ./src/Extended.Collections.sln 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
