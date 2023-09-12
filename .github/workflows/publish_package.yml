@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      Source_Dir: ./src/
+      SourceDir: ./src/
       Configuration: Release
       Solution_Path: ./src/Extended.Collections.sln 
     steps:
@@ -24,9 +24,7 @@ jobs:
     - name: Restore Dotnet Tools
       run: dotnet tool restore
     - name: Run Git Version
-      run: |
-            dotnet-gitversion
-            echo Semantic Version: ${GitVersion_SemVer}
+      run:  dotnet-gitversion
     - name: Build 
       run: dotnet build ${Solution_Path}
     - name: Execute unit tests
