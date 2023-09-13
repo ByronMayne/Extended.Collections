@@ -1,0 +1,16 @@
+mode: ContinuousDelivery
+increment: patch
+
+branches:
+  main:
+    regex: ^main$
+    mode: ContinuousDelivery
+    tag: 'rc'
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    source-branches: [ 'develop', 'release' ]
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: true
+    pre-release-weight: 55000
