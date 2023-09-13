@@ -14,6 +14,6 @@ Cons:
 ### Hypothetical Use Case:
 Suppose you are building a task management application, and you need to maintain a list of tasks for a project while preserving the order in which they were added. An OrderedDictionary can be useful in this scenario to store and manage tasks associated with a project.
 
-```csharp file=../../../src/Extended.Collections.Playground\Generic\Specialized\OrderedDictionarySandbox.cs#L2-
+```csharp file=../../../src/Extended.Collections.Playground/Generic/Specialized/OrderedDictionarySandbox.cs#L2-
 // Imported
 ```
