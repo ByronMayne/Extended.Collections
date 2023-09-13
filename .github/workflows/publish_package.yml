@@ -34,13 +34,3 @@ jobs:
       run: dotnet msbuild -t:pack ${Solution_Path} -p:PackageVersion=${{env.GitVersion_NuGetVersion}} -p:NoBuild=true
     - name: Push 
       run: dotnet nuget push ./src/Extended.Collections/bin/${Configuration}/*.nupkg --skip-duplicate --api-key ${{secrets.NuGet_Api_Key}} --source ${{vars.Nuget_Source_Url}}
-    - name: Create Release 
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.rf }}
-        draft: false 
-        prerelease:  export v=$([[ -z "${{env.GitVersion_PreReleaseTag}}" ]] && echo "false" || echo "true")
