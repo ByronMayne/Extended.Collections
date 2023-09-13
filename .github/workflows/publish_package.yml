@@ -26,7 +26,7 @@ jobs:
     - name: Restore Dotnet Tools
       run: dotnet tool restore
     - name: Run Git Version
-      run: dotnet gitversion
+      run: dotnet gitversion /output buildserver
     - name: Restore 
       run: dotnet restore ${Solution_Path} -p:NoRestore=false
     - name: Build 
