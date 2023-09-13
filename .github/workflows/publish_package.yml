@@ -11,6 +11,9 @@ jobs:
       SourceDir: ./src/
       Configuration: Release
       Solution_Path: ./src/Extended.Collections.sln 
+      # MSBuild defaults
+      NoBuild: true # Build once explictly 
+      NoRestore: true # Restore once explictly 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -23,14 +26,14 @@ jobs:
     - name: Restore Dotnet Tools
       run: dotnet tool restore
     - name: Run Git Version
-      run: |
-            dotnet gitversion
-            echo Semantic Version: ${GitVersion_SemVer}
+      run: dotnet gitversion
+    - name: Restore 
+      run: dotnet restore ${Solution_Path} -p:NoRestore=false
     - name: Build 
-      run: dotnet build ${Solution_Path}
+      run: dotnet build ${Solution_Path} -p:Version=${GitVersion_AssemblySemVer} -p:NoBuild=false
     - name: Execute unit tests
-      run: dotnet test ${Solution_Path}
+      run: dotnet test ${Solution_Path} 
     - name: Pack 
-      run: dotnet msbuild -t:pack ${Solution_Path}
+      run: dotnet msbuild -t:pack ${Solution_Path} -p:PackageVersion={GitVersion_NuGetVersion}
     - name: Push 
-      run: dotnet nuget push ./src/Extended.Collections/bin/${Configuration}/*.nupkg --api-key ${{ secrets.NuGet_Api_Key }} --source ${{ vars.Nuget_Source_Url}}
+      run: dotnet nuget push ./src/Extended.Collections/bin/${Configuration}/*.nupkg --skip-duplicate --api-key ${{ secrets.NuGet_Api_Key }} --source ${{ vars.Nuget_Source_Url}}
