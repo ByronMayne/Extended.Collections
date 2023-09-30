@@ -1,4 +1,6 @@
-﻿namespace Extended.Collections.Playground.Generic;
+﻿using Extended.Collections.Generic;
+namespace Extended.Collections.Playground.Generic;
+
 internal class DequeSandbox : Sandbox
 {
     public Deque<string> m_deque = new Deque<string>();
