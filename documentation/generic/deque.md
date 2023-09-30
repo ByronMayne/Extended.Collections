@@ -15,3 +15,11 @@ A double-ended queue, often abbreviated as "deque" (pronounced as "deck"), is a 
 ```csharp file=../../src/Extended.Collections.Playground/Generic/DequeSandbox.cs#L2-
 // Imported
 ```
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```

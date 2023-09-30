@@ -10,7 +10,9 @@ jobs:
     env:
       SourceDir: ./src/
       Configuration: Release
+      Framework: netstandard2.0
       Solution_Path: ./src/Extended.Collections.sln 
+      Library_Dir: ./src/Extended.Collections/
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -29,8 +31,10 @@ jobs:
     - name: Build 
       run: dotnet build ${Solution_Path} -p:Version=${{env.GitVersion_AssemblySemVer}} 
     - name: Execute unit tests
-      run: dotnet test ${Solution_Path} --no-build
+      run: dotnet test ${Solution_Path} --no-build -p:CollectCoverage=true --collect:"XPlat Code Coverage"
+    # - name: Generate Code Coverage
+    #   run: dotnet coverlet ${Library_Dir}bin/${Configuration}/${Framework}/Extended.Collections.dll
     - name: Pack 
       run: dotnet msbuild -t:pack ${Solution_Path} -p:PackageVersion=${{env.GitVersion_NuGetVersion}} -p:NoBuild=true
     - name: Push 
-      run: dotnet nuget push ./src/Extended.Collections/bin/${Configuration}/*.nupkg --skip-duplicate --api-key ${{secrets.NuGet_Api_Key}} --source ${{vars.Nuget_Source_Url}}
+      run: dotnet nuget push ${Library_Dir}bin/${Configuration}/*.nupkg --skip-duplicate --api-key ${{secrets.NuGet_Api_Key}} --source ${{vars.Nuget_Source_Url}}

@@ -35,6 +35,9 @@ const config = {
       additionalLanguages: [ 'csharp' ]
     },
   },
+  themes: [ 
+    '@docusaurus/theme-mermaid'
+  ],
   plugins: [
     ['@docusaurus/plugin-debug', {}],
     ['@docusaurus/theme-classic', {}],
