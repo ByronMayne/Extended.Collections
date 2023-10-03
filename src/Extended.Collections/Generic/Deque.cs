@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace Extended.Collections.Generic
 {
-  
+
     /// <summary>
     /// A Deque or 'double-ended queue` is collection used to allow for removing from the start or the end 
     /// </summary>
@@ -53,6 +54,7 @@ namespace Extended.Collections.Generic
             // Make the sides equal 
             IsReadOnly = false;
             m_items = new T[capacity];
+
             int halfSize = m_items.Length / 2;
             m_first = halfSize;
             m_last = halfSize;
@@ -62,14 +64,13 @@ namespace Extended.Collections.Generic
             => Push(Position.First, item);
 
         public void PushRangeFirst(IEnumerable<T> range)
-        { }
+          => PushRange(Position.First, range);
 
         public void PushLast(T item)
             => Push(Position.First, item);
 
-
         public void PushRangeLast(IEnumerable<T> range)
-        { }
+            => PushRange(Position.Last, range);
 
         public T PopLast()
            => Pop(Position.Last);
@@ -164,16 +165,44 @@ namespace Extended.Collections.Generic
             int index = m_first + 1;
             int last = m_last + 1;
 
-            for(int i = m_first + 1; i < last; i++)
+            for (int i = m_first + 1; i < last; i++)
             {
                 yield return m_items[i];
             }
         }
 
+        private void PushRange(Position position, IEnumerable<T> items)
+        {
+            ICollection<T> collection = items is ICollection<T> asCollection
+                ? asCollection
+                : items.ToList();
+
+            bool rebalance = position == Position.First
+                ? m_first - collection.Count < 0
+                : m_last + collection.Count > Capacity;
+
+            if (rebalance)
+            {
+                // Rebalance the tree so that we can have
+                // all elements fit within one action
+                BalanceTree(position, collection.Count);
+            }
+
+            foreach(T item in collection)
+            {
+                Push(position, item);
+            }
+        }
 
         private void Push(Position position, T item)
         {
             int insert;
+
+            if (position == Position.First ? m_first - 1 < 0 : m_last + 1 >= Capacity)
+            {
+                BalanceTree(position, 1);
+            }
+
 
             if (m_first == m_last)
             {
@@ -198,11 +227,6 @@ namespace Extended.Collections.Generic
                 }
             }
 
-            if (insert < 0 || insert > Capacity)
-            {
-                BalanceTree(position,  ref insert);
-            }
-
             m_items[insert] = item;
         }
 
@@ -212,14 +236,14 @@ namespace Extended.Collections.Generic
         /// 2. Resize the array and make it twice as big and shift all the element over to the new array 
         /// </summary>
         /// <param name="position">The postion that is going out of bounds</param>
-        /// <param name="insert">The position to insert</param>
-        private void BalanceTree(Position position, ref int insert)
+        /// <param name="allocationCount">The number of entries to leave avaiable to be allocated</param>
+        private int BalanceTree(Position position, int allocationCount)
         {
             lock (m_items)
             {
                 int halfSize = Capacity / 2;
                 int quarterSize = Capacity / 4;
-                int remaing = Capacity - Count + 1; // + 1 because our count incresed above)
+                int remaing = Capacity - Count - allocationCount;
 
                 if (remaing > quarterSize)
                 {
@@ -238,7 +262,7 @@ namespace Extended.Collections.Generic
                     }
                     m_last += shift;
                     m_first += shift;
-                    insert += shift;
+                    return shift;
                 }
                 else
                 {
@@ -248,7 +272,7 @@ namespace Extended.Collections.Generic
                     m_items = resizedItems;
                     m_first += halfSize;
                     m_last += halfSize;
-                    insert += halfSize;
+                    return halfSize;
                 }
             }
         }

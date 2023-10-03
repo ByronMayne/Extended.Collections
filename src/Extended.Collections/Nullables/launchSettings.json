@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Extended.Collections": {
+      "commandName": "Project",
+      "commandLineArgs": "*"
+    }
+  }
+}
