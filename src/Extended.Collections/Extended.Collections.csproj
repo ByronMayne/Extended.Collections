@@ -10,12 +10,14 @@
     <Description>Extended.Collections is a package that contains unit tested generic collections that can be used across a range of project types.</Description>
     <PackageId>Extended.Collections</PackageId>
     <PackageTags>Collections;Queues;Dictionary;List;RingBuffer;Generic</PackageTags>
-    <PackageProjectUrl>https://github.com/ByronMayne/Extended.Collections</PackageProjectUrl>
+    <PackageProjectUrl>https://byronmayne.github.io/Extended.Collections/</PackageProjectUrl>
     <!-- Source Link -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/ByronMayne/Extended.Collections</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
