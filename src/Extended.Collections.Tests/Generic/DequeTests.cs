@@ -4,6 +4,7 @@ using FluentAssertions.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,6 +62,21 @@ namespace Extended.Collections.Tests.Generic
                 assertIsEmpty: () => true);
 
         [Fact]
+        public void TryPeakFirst_WithEmptyCollection_ReturnsFalse()
+        {
+            Deque<int> subject = new Deque<int>();
+            Assert.False(subject.TryPeekFirst(out int item));
+        }
+
+        [Fact]
+        public void TryPeakLast_WithEmptyCollection_ReturnsFalse()
+        {
+            Deque<int> subject = new Deque<int>();
+            Assert.False(subject.TryPeekLast(out int item));
+        }
+
+
+        [Fact]
         public void PushFirst_BeyondHalfCapacity_DoublesCapacity()
             => Compose<string>(
                 capacity: 2,
@@ -111,19 +127,35 @@ namespace Extended.Collections.Tests.Generic
                     });
 
         [Fact]
-        public void PushFirst_Enumerate_ReturnsFirstInLastOut()
+        public void PushFirstRange_Enumerate_ReturnsFirstInLastOut()
             => Compose(
-                    mutations: new[] { PushFirst(1, 2, 3, 4, 5) },
+                    mutations: new[] { PushFirstRange(1, 2, 3, 4, 5) },
                     assertCollection: sub => sub
                         .HaveCount(5)
                         .And.BeInDescendingOrder());
         [Fact]
-        public void PushFirst_Enumerate_ReturnsFirstInFirstOut()
+        public void PushLastRange_Enumerate_ReturnsFirstInFirstOut()
             => Compose(
-                mutations: new[] { PushLast(1, 2, 3, 4, 5) },
+                mutations: new[] { PushLastRange(1, 2, 3, 4, 5) },
                 assertCollection: col => col
                     .HaveCount(5)
-                    .And.BeInDescendingOrder());
+                    .And.BeInAscendingOrder());
+
+
+        [Fact]
+        public void PushRangeFirst_RebalancesTree_InsteadOfResizing()
+            => Compose(
+                    capacity: 10,
+                    mutations: new[] { PushFirstRange(1, 2, 3, 4, 5, 6) },
+                    assertCapacity: () => 10
+                );
+        [Fact]
+        public void PushRangeLast_RebalancesTree_InsteadOfReszing()
+            => Compose(
+                    capacity: 10,
+                    mutations: new[] { PushLastRange(1, 2, 3, 4, 5, 6) },
+                    assertCapacity: () => 10
+                );
 
         [Fact]
         public void PushItems_ThenClear_RemovesItems()
@@ -131,7 +163,7 @@ namespace Extended.Collections.Tests.Generic
                     assertCount: () => 0,
                     mutations: new[]
                     {
-                        PushFirst(1, 2, 3, 4),
+                        PushLastRange(1, 2, 3, 4),
                         Clear<int>()
                     });
 
@@ -208,25 +240,19 @@ namespace Extended.Collections.Tests.Generic
         private Action<Deque<T>> PushFirst<T>(T item)
             => (Deque<T> subject) => subject.PushFirst(item);
 
-        private Action<Deque<T>> PushFirst<T>(params T[] items)
+        private Action<Deque<T>> PushFirstRange<T>(params T[] items)
          => (Deque<T> subject) =>
          {
-             foreach (T item in items)
-             {
-                 subject.PushFirst(item);
-             }
+             subject.PushRangeFirst(items);
          };
 
         private Action<Deque<T>> PushLast<T>(T item)
             => (Deque<T> subject) => subject.PushLast(item);
 
-        private Action<Deque<T>> PushLast<T>(params T[] items)
+        private Action<Deque<T>> PushLastRange<T>(params T[] items)
             => (Deque<T> subject) =>
             {
-                foreach (T item in items)
-                {
-                    subject.PushLast(item);
-                }
+                subject.PushRangeLast(items);
             };
 
         private Action<Deque<T>> AssertPopLast<T>(T expected)
