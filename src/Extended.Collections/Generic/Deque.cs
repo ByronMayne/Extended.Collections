@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,7 +67,7 @@ namespace Extended.Collections.Generic
           => PushRange(Position.First, range);
 
         public void PushLast(T item)
-            => Push(Position.First, item);
+            => Push(Position.Last, item);
 
         public void PushRangeLast(IEnumerable<T> range)
             => PushRange(Position.Last, range);

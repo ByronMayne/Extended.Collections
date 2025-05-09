@@ -260,5 +260,108 @@ namespace Extended.Collections.Tests.Generic
 
         private Action<Deque<T>> AssertPopFirst<T>(T expected)
         => (Deque<T> subject) => subject.PopFirst().Should().Be(expected);
+
+        [Fact]
+        public void PopFirst_WithEmptyCollection_ThrowsInvalidOperationException()
+        {
+            Deque<int> subject = new Deque<int>();
+            Action act = () => subject.PopFirst();
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void PopLast_WithEmptyCollection_ThrowsInvalidOperationException()
+        {
+            Deque<int> subject = new Deque<int>();
+            Action act = () => subject.PopLast();
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void PeekFirst_WithEmptyCollection_ThrowsInvalidOperationException()
+        {
+            Deque<int> subject = new Deque<int>();
+            Action act = () => subject.PeekFirst();
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void PeekLast_WithEmptyCollection_ThrowsInvalidOperationException()
+        {
+            Deque<int> subject = new Deque<int>();
+            Action act = () => subject.PeekLast();
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void PushFirst_ThenContains_ReturnsTrue()
+        {
+            Deque<string> subject = new Deque<string>();
+            subject.PushFirst("Test");
+            subject.Contains("Test").Should().BeTrue();
+        }
+
+        [Fact]
+        public void PushLast_ThenContains_ReturnsTrue()
+        {
+            Deque<string> subject = new Deque<string>();
+            subject.PushLast("Test");
+            subject.Contains("Test").Should().BeTrue();
+        }
+
+        [Fact]
+        public void PushFirst_ThenRemove_DecreasesCount()
+        {
+            Deque<string> subject = new Deque<string>();
+            subject.PushFirst("Test");
+            subject.Remove("Test").Should().BeTrue();
+            subject.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public void PushLast_ThenRemove_DecreasesCount()
+        {
+            Deque<string> subject = new Deque<string>();
+            subject.PushLast("Test");
+            subject.Remove("Test").Should().BeTrue();
+            subject.Count.Should().Be(0);
+        }
+
+        [Fact]
+        public void PushFirstRange_ThenEnumerate_ReturnsExpectedOrder()
+        {
+            Deque<int> subject = new Deque<int>();
+            subject.PushRangeFirst(new[] { 1, 2, 3 });
+            subject.Should().ContainInOrder(3, 2, 1);
+        }
+
+        [Fact]
+        public void PushLastRange_ThenEnumerate_ReturnsExpectedOrder()
+        {
+            Deque<int> subject = new Deque<int>();
+            subject.PushRangeLast(new[] { 1, 2, 3 });
+            subject.Should().ContainInOrder(1, 2, 3);
+        }
+
+        [Fact]
+        public void Clear_EmptiesCollection()
+        {
+            Deque<int> subject = new Deque<int>();
+            subject.PushLast(1);
+            subject.PushLast(2);
+            subject.Clear();
+            subject.Count.Should().Be(0);
+            subject.IsEmpty.Should().BeTrue();
+        }
+
+        [Fact]
+        // https://github.com/ByronMayne/Extended.Collections/issues/2
+        public void Push_Last_Puts_At_End()
+        {
+            Deque<int> subject = new Deque<int>();
+            subject.PushFirst(1);
+            subject.PushLast(2);
+            Assert.Equal(2, subject.PeekLast());
+        }
     }
 }
