@@ -27,6 +27,28 @@ namespace Extended.Collections.Tests.Generic
             => Compose<string>(
                     capacity: 10,
                     assertCapacity: () => 10);
+
+        [Fact]
+        public void Index_With_Empty_Collection_ThrowsIndexOutOfRangeException()
+        {
+            RingBuffer<int> buffer = new RingBuffer<int>(10);
+            Assert.Throws<IndexOutOfRangeException>(() => buffer[0]);
+        }
+
+        [Theory]
+        [InlineData(15, 2, 2)]
+        [InlineData(15, 3, 3)]
+        [InlineData(15, -5, 5)]
+        [InlineData(15, -1, 9)]
+        [InlineData(10, 0, 0)]
+        [InlineData(2, -1, 9)]
+        public void Index_Returns_Expected(int size, int index, int expected)
+        {
+            RingBuffer<int> buffer = new RingBuffer<int>(size);
+            buffer.AddRange(Enumerable.Range(0, 10));
+            Assert.Equal(expected, buffer[index]);
+        }
+
         [Fact]
         public void AddItem_IncreaseCount()
             => Compose(
