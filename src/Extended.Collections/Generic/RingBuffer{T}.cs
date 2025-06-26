@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Extended.Collections.Generic
 {
@@ -25,7 +27,44 @@ namespace Extended.Collections.Generic
         public int Count { get; private set; }
 
         /// <inheritdoc cref="ICollection"/>
-        public bool IsReadOnly { get; }
+        public bool IsReadOnly => false;
+
+        /// <summary>
+        /// Gets the element at the given index, if the index is negetive it will wrap around
+        /// </summary>
+        /// <param name="index">The index to get</param>
+        /// <returns>The current value</returns>
+        public T this[int index]
+        {
+            get
+            {
+                if (Count == 0)
+                {
+                    throw new IndexOutOfRangeException($"The collection currently contains no elements, you can't select");
+                }
+
+                // Reduce the count 
+                if(index > 0)
+                {
+                    if (-index > Count)
+                        throw new IndexOutOfRangeException("Index out of range.");
+                    index = (m_tail + index) % Capacity;
+                }
+                else
+                {
+                    if (index >= Count)
+                        throw new IndexOutOfRangeException("Index out of range.");
+                    index = (m_head + index + Capacity) % Capacity;
+                }
+
+                if(index < 0)
+                {
+                    index = Capacity + index;
+                }
+
+                return m_items[index]!;
+            }
+        }
 
         /// <summary>
         /// Creates a new ring buffer with a fix capacity
@@ -38,7 +77,6 @@ namespace Extended.Collections.Generic
             Count = 0;
             m_tail = 0;
             m_items = new T[capacity];
-            IsReadOnly = false;
             m_equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
         }
 
@@ -55,6 +93,7 @@ namespace Extended.Collections.Generic
             Count = m_items.Length;
             m_equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
         }
+
 
         /// <summary>
         /// Adds a new item to the buffer
@@ -105,16 +144,15 @@ namespace Extended.Collections.Generic
         }
 
         /// <summary>
-        /// Returns back if a the biffer contains the item 
+        /// Returns back if a the buffer contains the item 
         /// </summary>
         /// <param name="item">The item to check if it contains</param>
         /// <returns>True if it is within otherwise false</returns>
         public bool Contains(T item)
         {
-            for (int i = 0; i < Count; i++)
+            foreach(T value in this)
             {
-                T? current = m_items[i];
-                if (current != null && m_equalityComparer.Equals(current, item))
+                if(m_equalityComparer.Equals(value, item))
                 {
                     return true;
                 }
@@ -125,18 +163,23 @@ namespace Extended.Collections.Generic
         /// <summary>
         /// Copies this buffer into another array
         /// </summary>
-        /// <param name="array">The array to copy into</param>
-        /// <param name="arrayIndex">The index to start the copying</param>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            IEnumerator<T> enumerator = GetEnumerator();
+        /// <param name="destination">The array to copy into</param>
+        /// <param name="destinationIndex">The index to start the copying</param>
+        public void CopyTo(T[] destination, int destinationIndex)
+            => CopyTo(destination, destinationIndex, 0, Count);
 
-            using (enumerator)
+        /// <summary>
+        /// Copies this buffer into another array
+        /// </summary>
+        /// <param name="destination">The array to copy into</param>
+        /// <param name="destinationIndex">The index to start the copying</param>
+        /// <param name="count">The max number of items to copy</param>
+        public void CopyTo(T[] destination, int destinationIndex, int sourceIndex, int count)
+        {
+            for (int i = 0; i < Count; i++)
             {
-                while (enumerator.MoveNext())
-                {
-                    array[arrayIndex++] = enumerator.Current;
-                }
+                int index = (i + m_tail + sourceIndex) % Capacity;
+                destination[destinationIndex + i] = m_items[index]!;
             }
         }
 
@@ -153,7 +196,8 @@ namespace Extended.Collections.Generic
 
             for (int i = 0; i < Count; i++)
             {
-                T? current = m_items[i];
+                int idx = (m_tail + i) % Capacity;
+                T? current = m_items[idx];
 
                 if(current == null)
                 {
