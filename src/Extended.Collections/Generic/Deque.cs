@@ -144,7 +144,23 @@ namespace Extended.Collections.Generic
         /// <inheritdoc cref="ICollection{T}"/>
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            // Search for the item in the deque
+            for (int i = m_first + 1; i < m_last; i++)
+            {
+                if (EqualityComparer<T>.Default.Equals(m_items[i], item))
+                {
+                    // Shift all elements after the removed item down by one
+                    for (int j = i; j < m_last - 1; j++)
+                    {
+                        m_items[j] = m_items[j + 1];
+                    }
+                    // Clear the last item and update the last index
+                    m_items[m_last - 1] = default!;
+                    m_last--;
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <inheritdoc cref="ICollection{T}"/>
