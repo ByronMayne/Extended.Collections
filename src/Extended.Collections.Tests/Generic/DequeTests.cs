@@ -363,5 +363,87 @@ namespace Extended.Collections.Tests.Generic
             subject.PushLast(2);
             Assert.Equal(2, subject.PeekLast());
         }
+
+        [Fact]
+        public void Remove_Existing_Item_ReturnsTrue_And_Removes()
+        {
+            var deque = new Deque<int>();
+            deque.PushLast(1);
+            deque.PushLast(2);
+            deque.PushLast(3);
+
+            Assert.True(deque.Remove(2));
+            Assert.Equal(2, deque.Count);
+            Assert.DoesNotContain(2, deque);
+            Assert.Equal(1, deque.PeekFirst());
+            Assert.Equal(3, deque.PeekLast());
+        }
+
+        [Fact]
+        public void Remove_NonExisting_Item_ReturnsFalse()
+        {
+            var deque = new Deque<string>();
+            deque.PushLast("a");
+            deque.PushLast("b");
+            Assert.False(deque.Remove("c"));
+            Assert.Equal(2, deque.Count);
+        }
+
+        [Fact]
+        public void Remove_First_Item_Updates_Head()
+        {
+            var deque = new Deque<int>();
+            deque.PushLast(10);
+            deque.PushLast(20);
+            deque.PushLast(30);
+
+            Assert.True(deque.Remove(10));
+            Assert.Equal(2, deque.Count);
+            Assert.Equal(20, deque.PeekFirst());
+        }
+
+        [Fact]
+        public void Remove_Last_Item_Updates_Tail()
+        {
+            var deque = new Deque<int>();
+            deque.PushLast(10);
+            deque.PushLast(20);
+            deque.PushLast(30);
+
+            Assert.True(deque.Remove(30));
+            Assert.Equal(2, deque.Count);
+            Assert.Equal(20, deque.PeekLast());
+        }
+
+        [Fact]
+        public void Remove_Middle_Item_Shifts_Items()
+        {
+            var deque = new Deque<int>();
+            deque.PushLast(1);
+            deque.PushLast(2);
+            deque.PushLast(3);
+            deque.PushLast(4);
+
+            Assert.True(deque.Remove(3));
+            Assert.Equal(3, deque.Count);
+            Assert.Equal(1, deque.PeekFirst());
+            Assert.Equal(4, deque.PeekLast());
+            Assert.DoesNotContain(3, deque);
+        }
+
+        [Fact]
+        public void Remove_Duplicate_Removes_First_Occurrence_Only()
+        {
+            var deque = new Deque<int>();
+            deque.PushLast(5);
+            deque.PushLast(6);
+            deque.PushLast(5);
+            deque.PushLast(7);
+
+            Assert.True(deque.Remove(5));
+            Assert.Equal(3, deque.Count);
+            Assert.Contains(5, deque);
+            Assert.Equal(6, deque.PeekFirst());
+        }
     }
 }
